@@ -1,0 +1,17 @@
+.profile__info {
+  display: grid;
+  grid-template-areas:
+    "name button"
+    "description description";
+  align-items: center;
+  max-width: 75%;
+}
+
+
+@media screen and (max-width: 900px) {
+  .profile__info {
+    margin-top: 1rem;
+    max-width: 90%;
+    justify-items: center;
+  }
+}

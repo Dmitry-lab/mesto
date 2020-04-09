@@ -1,0 +1,15 @@
+.profile__content {
+  max-width: 83%;
+  display: flex;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__content {
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    width: calc(100% - 4rem);
+  }
+}
