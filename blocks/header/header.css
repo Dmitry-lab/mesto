@@ -1,0 +1,14 @@
+@import url(__logo/header__logo.css);
+@import url(__decoration-line/header__decoration-line.css);
+
+.header {
+  margin: 0 auto;
+  padding-top: 45px;
+  max-width: 882px;
+}
+
+@media screen and (max-width: 475px) {
+  .header {
+    padding-top: 28px;;
+  }
+}
