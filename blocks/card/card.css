@@ -1,0 +1,16 @@
+@import url(__image/card__image.css);
+@import url(__caption-content/card__caption-content.css);
+@import url(__caption/card__caption.css);
+@import url(__like-image/card__like-image.css);
+
+
+.card {
+  margin: 0;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 900;
+  background-color: #fff;
+  border-radius: 10px;
+}
