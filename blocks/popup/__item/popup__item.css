@@ -1,0 +1,18 @@
+@import url(_type/popup__item_type_name.css);
+@import url(_type/popup__item_type_description.css);
+
+.popup__item {
+  width: 83%;
+  padding: .5em 0 .5em 0;
+  font-size: 1em;
+  line-height: 1.22;
+  font-weight: normal;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+
+.popup__item:focus {
+  border-bottom: none;
+  outline-color:  rgba(65, 105, 225, 0.3);
+}

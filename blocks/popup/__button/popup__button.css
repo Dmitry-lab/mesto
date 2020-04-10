@@ -1,0 +1,22 @@
+.popup__button {
+  width: 83%;
+  height: 50px;
+  margin: 2.5em auto 2em;
+  padding: 0;
+  background-color: black;
+  font-size: 1.28em;
+  line-height: 1.22;
+  font-weight: normal;
+  color: #fff;
+  border: none;
+  transition: opacity .5s ease;
+}
+
+.popup__button:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+
+.popup__button:focus {
+  outline: 3px solid rgba(99, 196, 20, 0.5);
+}
