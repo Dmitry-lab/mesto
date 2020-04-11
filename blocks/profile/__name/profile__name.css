@@ -1,12 +1,9 @@
 .profile__name {
-  padding: 0;
-  margin: 0 1.4rem 0 0;
+  padding: 1.3rem 0 0 0;
+  margin: 0;
   font-size: 3rem;
   line-height: 3.6rem;
   font-weight: 500;
-  grid-area: name;
-  align-self: end;
-  justify-self: end;
   overflow: hidden;
 }
 

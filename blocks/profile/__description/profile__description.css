@@ -4,8 +4,6 @@
   font-size: 1.28rem;
   line-height: 1.57rem;
   font-weight: normal;
-  grid-area: description;
-  align-self: start;
   overflow: hidden;
 }
 

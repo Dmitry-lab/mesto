@@ -6,22 +6,26 @@
   background-size: 10px 10px;
   background-repeat: no-repeat;
   background-position: center;
-  grid-area: button;
-  align-self: center;
   border: 1px solid #fff;
+  position: absolute;
+  top: 50%;
+  right: -3.1em;
+  transform: translateY(-180%);
 }
 
 @media screen and (max-width: 900px) {
   .profile__button_type_edit {
     margin-top: 0;
+    transform: translateY(-70%);
   }
 }
 
 @media screen and (max-width: 475px) {
   .profile__button_type_edit {
-    margin-top: 1em;
     width: 1.28rem;
     height: 1.28rem;
     background-size: 8px 8px;
+    right: -1rem;
+    transform: translateY(-80%);
   }
 }

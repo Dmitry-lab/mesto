@@ -1,5 +1,5 @@
 const editButton = document.querySelector('.profile__button_type_edit');
-let profileName = document.querySelector('.profile__name');
+const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const popupBlock = document.querySelector('.popup');
 const formElement = document.querySelector('.popup__container');
