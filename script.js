@@ -7,19 +7,23 @@ const exitIcon = document.querySelector('.popup__close-icon');
 const inputName = popupBlock.querySelector('.popup__item_type_name');
 const inputDescription = popupBlock.querySelector('.popup__item_type_description');
 const saveButton = document.querySelector('.popup__button');
+let closedStatus = true;
 
-editButton.addEventListener('click', showPopupForm);
-exitIcon.addEventListener('click', closeForm);
+editButton.addEventListener('click', showClosePopupForm);
+exitIcon.addEventListener('click', showClosePopupForm);
 formElement.addEventListener('submit', formSubmitHandler);
 
-function showPopupForm() {
-  popupBlock.classList.add('popup_opened');
-  inputName.value = profileName.textContent;
-  inputDescription.value = profileDescription.textContent;
-}
-
-function closeForm() {
-  popupBlock.classList.remove('popup_opened');
+function showClosePopupForm() {
+  if (closedStatus === true) {
+    popupBlock.classList.add('popup_opened');
+    inputName.value = profileName.textContent;
+    inputDescription.value = profileDescription.textContent;
+    closedStatus = false;
+  }
+  else {
+    popupBlock.classList.remove('popup_opened');
+    closedStatus = true;
+  }
 }
 
 function formSubmitHandler (evt) {
@@ -27,5 +31,5 @@ function formSubmitHandler (evt) {
 
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
-  closeForm();
+  showClosePopupForm();
 }

@@ -13,6 +13,6 @@
 
 
 .popup__item:focus {
-  border-bottom: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
   outline-color:  rgba(65, 105, 225, 0.3);
 }
