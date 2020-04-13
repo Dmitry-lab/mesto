@@ -1,8 +1,7 @@
 @import url(__image/card__image.css);
 @import url(__caption-content/card__caption-content.css);
 @import url(__caption/card__caption.css);
-@import url(__like-image/card__like-image.css);
-
+@import url(__like-button/card__like-button.css);
 
 .card {
   margin: 0;

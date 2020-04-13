@@ -1,22 +1,18 @@
-.popup__button {
+.popup__save-button {
   width: 83%;
   height: 50px;
   margin: 2.5em auto 2em;
   padding: 0;
-  background-color: black;
   font-size: 1.28em;
   line-height: 1.22;
   font-weight: normal;
-  color: #fff;
-  border: none;
-  transition: opacity .5s ease;
+  background-color: black;
 }
 
-.popup__button:hover {
+.popup__save-button:hover {
   opacity: .8;
-  cursor: pointer;
 }
 
-.popup__button:focus {
+.popup__save-button:focus {
   outline: 3px solid rgba(99, 196, 20, 0.5);
 }
