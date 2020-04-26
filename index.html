@@ -26,54 +26,12 @@
           <button class="default-button profile__add-button" type="button"></button>
         </section>
         <section class="gallery">
-          <figure class="card">
-            <img class="card__image" src="images/karachaevsk.jpg" alt="Фото Карачаевска">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Карачаевск</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
-          <figure class="card">
-            <img class="card__image" src="images/elbrus.jpg" alt="Фото горы Эльбрус">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Гора Эльбрус</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
-          <figure class="card">
-            <img class="card__image" src="images/dombai.jpg" alt="Фото горный хребет Домбай">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Домбай</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
-          <figure class="card">
-            <img class="card__image" src="images/paris.jpg" alt="Фото Эйфелева башня">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Эйфелева башня</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
-          <figure class="card">
-            <img class="card__image" src="images/taj-mahal.jpg" alt="Фото Тадж-Махал">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Тадж-Махал</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
-          <figure class="card">
-            <img class="card__image" src="images/cappadocia.jpg" alt="Фото региона Каппадокия">
-            <figcaption class="card__caption-content">
-              <p class="card__caption">Каппадокия</p>
-              <button class="default-button card__like-button" type="button"></button>
-            </figcaption>
-          </figure>
         </section>
       </main>
       <footer class="footer">
         <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
       </footer>
-      <div class="popup">
+      <div class="popup" id="popup-profile">
         <form class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
           <input class="popup__item popup__item_type_name" type="text" name="profile-name">
@@ -82,7 +40,34 @@
           <button class="default-button popup__close-button" type="button"></button>
         </form>
       </div>
+      <div class="popup" id="popup-add-image">
+        <form class="popup__container">
+          <h2 class="popup__title">Новое место</h2>
+          <input class="popup__item popup__item_type_name" type="text" name="place-name" placeholder="Название">
+          <input class="popup__item popup__item_type_description" type="text" name="place-link" placeholder="Ссылка на картинку">
+          <button class="default-button popup__save-button" type="submit">Создать</button>
+          <button class="default-button popup__close-button" type="button"></button>
+        </form>
+      </div>
+      <div class="popup" id="popup-image">
+        <figure class="popup__image-container">
+          <img class="popup__image" src="" alt="">
+          <figcaption class="popup__image-caption"></figcaption>
+          <button class="default-button popup__close-button" type="button"></button>
+        </figure>
+      </div>
     </div>
+    <template id="card-template">
+      <figure class="card">
+        <img class="card__image">
+        <div class="card__shadow-rect"></div>
+        <figcaption class="card__caption-content">
+          <p class="card__caption"></p>
+          <button class="default-button card__like-button" type="button"></button>
+          <button class="default-button card__delete-button" type="button"></button>
+        </figcaption>
+      </figure>
+    </template>
     <script src="script.js"></script>
   </body>
 </html>

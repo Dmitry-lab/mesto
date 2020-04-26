@@ -16,3 +16,10 @@
 .popup__save-button:focus {
   outline: 3px solid rgba(99, 196, 20, 0.5);
 }
+
+@media screen and (max-width: 520px) {
+  .popup__save-button {
+    font-size: 1em;
+    height: 40px;
+  }
+}

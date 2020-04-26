@@ -2,6 +2,9 @@
 @import url(__caption-content/card__caption-content.css);
 @import url(__caption/card__caption.css);
 @import url(__like-button/card__like-button.css);
+@import url(__like-button/_checked/card__like-button_checked.css);
+@import url(__delete-button/card__delete-button.css);
+@import url(__shadow-rect/card__shadow-rect.css);
 
 .card {
   margin: 0;
@@ -12,4 +15,10 @@
   font-weight: 900;
   background-color: #fff;
   border-radius: 10px;
+  position: relative;
+  z-index: 0;
 }
+
+
+
+

@@ -10,8 +10,9 @@
   position: relative;
 }
 
-@media screen and (max-width: 475px) {
+@media screen and (max-width: 520px) {
   .popup__container {
-    flex-basis: calc(100vw - 1em);
+    flex-basis: calc(100vw - 80px);
+    max-width: 340px;
   }
 }
