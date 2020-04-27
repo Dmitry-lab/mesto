@@ -8,14 +8,12 @@ const profileDescription = document.querySelector('.profile__description');
 const popupBlockProfile = document.querySelector('#popup-profile');
 const formElementProfile = popupBlockProfile.querySelector('.popup__container');
 const exitButtonProfile = popupBlockProfile.querySelector('.popup__close-button');
-const saveButtonProfile = popupBlockProfile.querySelector('.popup__button');
 const inputName = popupBlockProfile.querySelector('.popup__item_type_name');
 const inputDescription = popupBlockProfile.querySelector('.popup__item_type_description');
 
 const popupBlockAddImage = document.querySelector('#popup-add-image');
 const formElementAddImage = popupBlockAddImage.querySelector('.popup__container');
 const exitButtonAddImage = popupBlockAddImage.querySelector('.popup__close-button');
-const saveButtonAddImage = popupBlockAddImage.querySelector('.popup__close-button');
 const inputImageName = popupBlockAddImage.querySelector('.popup__item_type_name');
 const inputImageLink = popupBlockAddImage.querySelector('.popup__item_type_description');
 
@@ -51,12 +49,6 @@ const initialCards = [
   }
 ];
 
-addElementsListener('click', fillProfileForm, editButton, exitButtonProfile);
-addElementsListener('click', () => showClosePopupForm(popupBlockAddImage), addButton, exitButtonAddImage);
-addElementsListener('click', () => showClosePopupForm(popupBlockImage), exitButtonImage);
-addElementsListener('submit', formSubmitHandler, formElementProfile, formElementAddImage);
-createGallery(initialCards);
-
 function addElementsListener(eventType, listenerFunction, ...elements) {
   elements.forEach(item => item.addEventListener(eventType, listenerFunction))
 }
@@ -73,19 +65,18 @@ function fillProfileForm() {
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
-  switch (evt.target) {
-    case formElementProfile:
-      profileName.textContent = inputName.value;
-      profileDescription.textContent = inputDescription.value;
-      showClosePopupForm(popupBlockProfile);
-      break;
-    case formElementAddImage:
-      createCard(inputImageName.value, inputImageLink.value, false);
-      showClosePopupForm(popupBlockAddImage);
+  if (evt.target === formElementProfile) {
+    profileName.textContent = inputName.value;
+    profileDescription.textContent = inputDescription.value;
+    showClosePopupForm(popupBlockProfile);
+  }
+  else {
+    galleryBlock.prepend(createCard(inputImageName.value, inputImageLink.value, false));
+    showClosePopupForm(popupBlockAddImage);
   }
 }
 
-function createCard(name, link, initialCreation) {
+function createCard(name, link) {
   const cardNode = templateContent.cloneNode(true);
   const cardImage = cardNode.querySelector('img');
 
@@ -99,12 +90,20 @@ function createCard(name, link, initialCreation) {
     imageBlockImage.src = evt.target.previousElementSibling.src;
     imageCaption.textContent = evt.target.previousElementSibling.alt;
   });
-  initialCreation ? galleryBlock.append(cardNode) : galleryBlock.prepend(cardNode);
+  return cardNode;
 }
 
 function createGallery(cards) {
-  cards.forEach(card => createCard(card.name, card.link, true));
+  cards.forEach(card => galleryBlock.append(createCard(card.name, card.link)));
 }
+
+addElementsListener('click', fillProfileForm, editButton, exitButtonProfile);
+addElementsListener('click', () => showClosePopupForm(popupBlockAddImage), addButton, exitButtonAddImage);
+addElementsListener('click', () => showClosePopupForm(popupBlockImage), exitButtonImage);
+addElementsListener('submit', formSubmitHandler, formElementProfile, formElementAddImage);
+createGallery(initialCards);
+
+
 
 
 
