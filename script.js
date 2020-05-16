@@ -83,13 +83,6 @@ function createCard(name, link) {
   cardNode.querySelector('p').textContent = name;
   cardImage.src = link;
   cardImage.alt = name;
-  cardNode.querySelector('.card__delete-button').addEventListener('click', evt => evt.target.closest('.card').remove());
-  cardNode.querySelector('.card__like-button').addEventListener('click', evt => evt.target.classList.toggle('card__like-button_checked'));
-  cardNode.querySelector('.card__shadow-rect').addEventListener('click', evt => {
-    showClosePopupForm(popupBlockImage);
-    imageBlockImage.src = evt.target.previousElementSibling.src;
-    imageCaption.textContent = evt.target.previousElementSibling.alt;
-  });
   return cardNode;
 }
 
@@ -101,7 +94,34 @@ addElementsListener('click', fillProfileForm, editButton, exitButtonProfile);
 addElementsListener('click', () => showClosePopupForm(popupBlockAddImage), addButton, exitButtonAddImage);
 addElementsListener('click', () => showClosePopupForm(popupBlockImage), exitButtonImage);
 addElementsListener('submit', formSubmitHandler, formElementProfile, formElementAddImage);
+galleryBlock.addEventListener('click', evt => {
+  if (evt.target.classList.contains('card__delete-button'))
+    evt.target.closest('.card').remove();
+
+  else if (evt.target.classList.contains('card__like-button'))
+    evt.target.classList.toggle('card__like-button_checked');
+
+  else if (evt.target.classList.contains('card__shadow-rect')) {
+    showClosePopupForm(popupBlockImage);
+    imageBlockImage.src = evt.target.previousElementSibling.src;
+    imageCaption.textContent = evt.target.previousElementSibling.alt;
+  }
+});
+
+document.querySelectorAll('.popup').forEach(popupElement => {
+  popupElement.addEventListener('click', evt => {
+    if (evt.target.classList.contains('popup'))
+      showClosePopupForm(evt.currentTarget);
+  });
+});
+
+document.addEventListener('keydown', evt => {
+  if (evt.key === "Escape")
+    showClosePopupForm(document.querySelector('.popup_opened'));
+});
+
 createGallery(initialCards);
+
 
 
 
