@@ -3,7 +3,7 @@
 
 .popup__item {
   width: 83%;
-  padding: .5em 0 .5em 0;
+  padding-bottom: .8em;
   font-size: 1em;
   line-height: 1.22;
   font-weight: normal;
@@ -14,7 +14,7 @@
 
 .popup__item:focus {
   border-bottom: 1px solid rgba(0, 0, 0, 0);
-  outline: 1px, solid, rgba(65, 105, 225, 0.3);
+  outline: 1px solid rgba(65, 105, 225, 0.3);
 }
 
 @media screen and (max-width: 520px) {

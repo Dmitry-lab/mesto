@@ -57,10 +57,25 @@ function showClosePopupForm(element) {
   element.classList.toggle('popup_opened');
 }
 
+function clearFormErrors(formElement) {
+  formElement.querySelectorAll('.popup__item_inappropriate').forEach(element => element.classList.remove('popup__item_inappropriate'));
+  formElement.querySelectorAll('.popup__error_visible').forEach(element => element.classList.remove('popup__error_visible'));
+}
+
 function fillProfileForm() {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
+  clearFormErrors(popupBlockProfile);
+  changeButtonState(popupBlockProfile, '.popup__save-button', 'popup__save-button_disabled');
   showClosePopupForm(popupBlockProfile);
+}
+
+function fillAddImageForm() {
+  inputImageName.value = '';
+  inputImageLink.value = '';
+  clearFormErrors(popupBlockAddImage);
+  changeButtonState(popupBlockAddImage, '.popup__save-button', 'popup__save-button_disabled');
+  showClosePopupForm(popupBlockAddImage);
 }
 
 function formSubmitHandler(evt) {
@@ -91,9 +106,11 @@ function createGallery(cards) {
 }
 
 addElementsListener('click', fillProfileForm, editButton, exitButtonProfile);
-addElementsListener('click', () => showClosePopupForm(popupBlockAddImage), addButton, exitButtonAddImage);
+addElementsListener('click', fillAddImageForm, addButton, exitButtonAddImage);
 addElementsListener('click', () => showClosePopupForm(popupBlockImage), exitButtonImage);
 addElementsListener('submit', formSubmitHandler, formElementProfile, formElementAddImage);
+
+// назначение обработчиков событий для работы с карточками фотографий путем делегирования событий
 galleryBlock.addEventListener('click', evt => {
   if (evt.target.classList.contains('card__delete-button'))
     evt.target.closest('.card').remove();
@@ -108,6 +125,7 @@ galleryBlock.addEventListener('click', evt => {
   }
 });
 
+// закрытие popup-ов при клике на оверлей
 document.querySelectorAll('.popup').forEach(popupElement => {
   popupElement.addEventListener('click', evt => {
     if (evt.target.classList.contains('popup'))
