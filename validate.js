@@ -1,3 +1,12 @@
+const configObject = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__item_inappropriate',
+  errorClass: 'popup__error_visible'
+}
+
 function showErrorMessage(inputElement, errorElement, inputErrorClass, errorClass) {
   inputElement.classList.add(inputErrorClass);
   errorElement.classList.add(errorClass);
@@ -13,10 +22,12 @@ function hideErrorMessage(inputElement, errorElement, inputErrorClass, errorClas
 function checkValidity(formElement, inputElement, inputErrorClass, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
-  if (inputElement.validity.valid)
+  if (inputElement.validity.valid) {
     hideErrorMessage(inputElement, errorElement, inputErrorClass, errorClass);
-  else
+  }
+  else {
     showErrorMessage(inputElement, errorElement, inputErrorClass, errorClass);
+  }
 }
 
 function formIsNotValid(formElement) {

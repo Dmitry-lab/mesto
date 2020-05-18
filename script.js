@@ -53,20 +53,32 @@ function addElementsListener(eventType, listenerFunction, ...elements) {
   elements.forEach(item => item.addEventListener(eventType, listenerFunction))
 }
 
+function closeByEscape(evt) {
+  if (evt.key === "Escape") {
+    showClosePopupForm(document.querySelector('.popup_opened'));
+  }
+}
+
 function showClosePopupForm(element) {
-  element.classList.toggle('popup_opened');
+  if (element.classList.contains('popup_opened')) {
+    element.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
+  }
+  else {
+    element.classList.add('popup_opened');
+    document.addEventListener('keydown', closeByEscape);
+  }
 }
 
 function clearFormErrors(formElement) {
-  formElement.querySelectorAll('.popup__item_inappropriate').forEach(element => element.classList.remove('popup__item_inappropriate'));
-  formElement.querySelectorAll('.popup__error_visible').forEach(element => element.classList.remove('popup__error_visible'));
+  formElement.querySelectorAll('.popup__item').forEach(element => checkValidity(formElement, element, configObject.inputErrorClass, configObject.errorClass));
 }
 
 function fillProfileForm() {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
   clearFormErrors(popupBlockProfile);
-  changeButtonState(popupBlockProfile, '.popup__save-button', 'popup__save-button_disabled');
+  changeButtonState(popupBlockProfile, configObject.submitButtonSelector, configObject.inactiveButtonClass);
   showClosePopupForm(popupBlockProfile);
 }
 
@@ -74,7 +86,7 @@ function fillAddImageForm() {
   inputImageName.value = '';
   inputImageLink.value = '';
   clearFormErrors(popupBlockAddImage);
-  changeButtonState(popupBlockAddImage, '.popup__save-button', 'popup__save-button_disabled');
+  changeButtonState(popupBlockAddImage,configObject.submitButtonSelector, configObject.inactiveButtonClass);
   showClosePopupForm(popupBlockAddImage);
 }
 
@@ -94,10 +106,12 @@ function formSubmitHandler(evt) {
 function createCard(name, link) {
   const cardNode = templateContent.cloneNode(true);
   const cardImage = cardNode.querySelector('img');
+  const cardShadowRect = cardNode.querySelector('.card__shadow-rect');
 
   cardNode.querySelector('p').textContent = name;
-  cardImage.src = link;
-  cardImage.alt = name;
+  cardImage.src = cardShadowRect.dataset.url = link;
+  cardImage.alt = cardShadowRect.dataset.alt = name;
+
   return cardNode;
 }
 
@@ -112,30 +126,28 @@ addElementsListener('submit', formSubmitHandler, formElementProfile, formElement
 
 // назначение обработчиков событий для работы с карточками фотографий путем делегирования событий
 galleryBlock.addEventListener('click', evt => {
-  if (evt.target.classList.contains('card__delete-button'))
+  if (evt.target.classList.contains('card__delete-button')) {
     evt.target.closest('.card').remove();
+  }
 
-  else if (evt.target.classList.contains('card__like-button'))
+  else if (evt.target.classList.contains('card__like-button')) {
     evt.target.classList.toggle('card__like-button_checked');
+  }
 
   else if (evt.target.classList.contains('card__shadow-rect')) {
     showClosePopupForm(popupBlockImage);
-    imageBlockImage.src = evt.target.previousElementSibling.src;
-    imageCaption.textContent = evt.target.previousElementSibling.alt;
+    imageBlockImage.src = evt.target.dataset.url;
+    imageCaption.textContent = evt.target.dataset.alt;
   }
 });
 
 // закрытие popup-ов при клике на оверлей
 document.querySelectorAll('.popup').forEach(popupElement => {
   popupElement.addEventListener('click', evt => {
-    if (evt.target.classList.contains('popup'))
+    if (evt.target.classList.contains('popup')) {
       showClosePopupForm(evt.currentTarget);
+    }
   });
-});
-
-document.addEventListener('keydown', evt => {
-  if (evt.key === "Escape")
-    showClosePopupForm(document.querySelector('.popup_opened'));
 });
 
 createGallery(initialCards);
