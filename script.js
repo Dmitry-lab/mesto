@@ -1,7 +1,9 @@
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const galleryBlock = document.querySelector('.gallery');
-const templateContent = document.querySelector('#card-template').content;
 
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
@@ -18,9 +20,7 @@ const inputImageName = popupBlockAddImage.querySelector('.popup__item_type_name'
 const inputImageLink = popupBlockAddImage.querySelector('.popup__item_type_description');
 
 const popupBlockImage = document.querySelector('#popup-image');
-const imageBlockImage = popupBlockImage.querySelector('.popup__image');
 const exitButtonImage = popupBlockImage.querySelector('.popup__close-button');
-const imageCaption = popupBlockImage.querySelector('.popup__image-caption');
 
 const initialCards = [
   {
@@ -49,6 +49,17 @@ const initialCards = [
   }
 ];
 
+const configObject = {
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__item_inappropriate',
+  errorClass: 'popup__error_visible'
+}
+const popupProfileValidator = new FormValidator(configObject, popupBlockProfile);
+const popupAddImgValidator = new FormValidator(configObject, popupBlockAddImage);
+
+
 function addElementsListener(eventType, listenerFunction, ...elements) {
   elements.forEach(item => item.addEventListener(eventType, listenerFunction))
 }
@@ -70,23 +81,23 @@ function showClosePopupForm(element) {
   }
 }
 
-function clearFormErrors(formElement) {
-  formElement.querySelectorAll('.popup__item').forEach(element => checkValidity(formElement, element, configObject.inputErrorClass, configObject.errorClass));
+function clearFormErrors(formElement, formValidator) {
+  formElement.querySelectorAll('.popup__item').forEach(element => formValidator.checkValidity(element));
 }
 
 function fillProfileForm() {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
-  clearFormErrors(popupBlockProfile);
-  changeButtonState(popupBlockProfile, configObject.submitButtonSelector, configObject.inactiveButtonClass);
+  clearFormErrors(popupBlockProfile, popupProfileValidator);
+  popupProfileValidator.changeButtonState();
   showClosePopupForm(popupBlockProfile);
 }
 
 function fillAddImageForm() {
   inputImageName.value = '';
   inputImageLink.value = '';
-  clearFormErrors(popupBlockAddImage);
-  changeButtonState(popupBlockAddImage,configObject.submitButtonSelector, configObject.inactiveButtonClass);
+  clearFormErrors(popupBlockAddImage, popupAddImgValidator);
+  popupAddImgValidator.changeButtonState();
   showClosePopupForm(popupBlockAddImage);
 }
 
@@ -98,48 +109,23 @@ function formSubmitHandler(evt) {
     showClosePopupForm(popupBlockProfile);
   }
   else {
-    galleryBlock.prepend(createCard(inputImageName.value, inputImageLink.value, false));
+    const cardObject = new Card({name: inputImageName.value, link: inputImageLink.value}, '#card-template', popupBlockImage, showClosePopupForm);
+    galleryBlock.prepend(cardObject.createCard());
     showClosePopupForm(popupBlockAddImage);
   }
 }
 
-function createCard(name, link) {
-  const cardNode = templateContent.cloneNode(true);
-  const cardImage = cardNode.querySelector('img');
-  const cardShadowRect = cardNode.querySelector('.card__shadow-rect');
-
-  cardNode.querySelector('p').textContent = name;
-  cardImage.src = cardShadowRect.dataset.url = link;
-  cardImage.alt = cardShadowRect.dataset.alt = name;
-
-  return cardNode;
-}
-
 function createGallery(cards) {
-  cards.forEach(card => galleryBlock.append(createCard(card.name, card.link)));
+  cards.forEach(card => {
+    const cardObject = new Card(card, '#card-template', popupBlockImage, showClosePopupForm);
+    galleryBlock.append(cardObject.createCard());
+  });
 }
 
 addElementsListener('click', fillProfileForm, editButton, exitButtonProfile);
 addElementsListener('click', fillAddImageForm, addButton, exitButtonAddImage);
 addElementsListener('click', () => showClosePopupForm(popupBlockImage), exitButtonImage);
 addElementsListener('submit', formSubmitHandler, formElementProfile, formElementAddImage);
-
-// назначение обработчиков событий для работы с карточками фотографий путем делегирования событий
-galleryBlock.addEventListener('click', evt => {
-  if (evt.target.classList.contains('card__delete-button')) {
-    evt.target.closest('.card').remove();
-  }
-
-  else if (evt.target.classList.contains('card__like-button')) {
-    evt.target.classList.toggle('card__like-button_checked');
-  }
-
-  else if (evt.target.classList.contains('card__shadow-rect')) {
-    showClosePopupForm(popupBlockImage);
-    imageBlockImage.src = evt.target.dataset.url;
-    imageCaption.textContent = evt.target.dataset.alt;
-  }
-});
 
 // закрытие popup-ов при клике на оверлей
 document.querySelectorAll('.popup').forEach(popupElement => {
@@ -151,6 +137,9 @@ document.querySelectorAll('.popup').forEach(popupElement => {
 });
 
 createGallery(initialCards);
+popupProfileValidator.enableValidation();
+popupAddImgValidator.enableValidation();
+
 
 
 
