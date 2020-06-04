@@ -20,7 +20,7 @@ export default class FormValidator {
     errorElement.classList.remove(this._errorClass);
   }
 
-  checkValidity(inputElement) {
+  _checkValidity(inputElement) {
     const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
 
     if (inputElement.validity.valid) {
@@ -35,7 +35,7 @@ export default class FormValidator {
     return Array.from(this._form.querySelectorAll('.popup__item')).some(element => !element.validity.valid);
   }
 
-  changeButtonState() {
+  _changeButtonState() {
     const formButton = this._form.querySelector(this._submitButtonSelector);
 
     if (this._formIsNotValid()) {
@@ -53,9 +53,18 @@ export default class FormValidator {
 
     inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
-        this.checkValidity(inputElement);
-        this.changeButtonState();
+        this._checkValidity(inputElement);
+        this._changeButtonState();
       });
+    });
+  }
+
+  validate() {
+    const inputList = this._form.querySelectorAll(this._inputSelector);
+
+    inputList.forEach(inputElement => {
+      this._checkValidity(inputElement);
+      this._changeButtonState();
     });
   }
 

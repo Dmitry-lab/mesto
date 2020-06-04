@@ -1,5 +1,7 @@
-import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Card from './Card.js';
+import {initialCards} from './data.js';
+import {addElementsListener, showClosePopupForm} from './utils.js';
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -22,33 +24,6 @@ const inputImageLink = popupBlockAddImage.querySelector('.popup__item_type_descr
 const popupBlockImage = document.querySelector('#popup-image');
 const exitButtonImage = popupBlockImage.querySelector('.popup__close-button');
 
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 const configObject = {
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__save-button',
@@ -59,45 +34,17 @@ const configObject = {
 const popupProfileValidator = new FormValidator(configObject, popupBlockProfile);
 const popupAddImgValidator = new FormValidator(configObject, popupBlockAddImage);
 
-
-function addElementsListener(eventType, listenerFunction, ...elements) {
-  elements.forEach(item => item.addEventListener(eventType, listenerFunction))
-}
-
-function closeByEscape(evt) {
-  if (evt.key === "Escape") {
-    showClosePopupForm(document.querySelector('.popup_opened'));
-  }
-}
-
-function showClosePopupForm(element) {
-  if (element.classList.contains('popup_opened')) {
-    element.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeByEscape);
-  }
-  else {
-    element.classList.add('popup_opened');
-    document.addEventListener('keydown', closeByEscape);
-  }
-}
-
-function clearFormErrors(formElement, formValidator) {
-  formElement.querySelectorAll('.popup__item').forEach(element => formValidator.checkValidity(element));
-}
-
 function fillProfileForm() {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
-  clearFormErrors(popupBlockProfile, popupProfileValidator);
-  popupProfileValidator.changeButtonState();
+  popupProfileValidator.validate();
   showClosePopupForm(popupBlockProfile);
 }
 
 function fillAddImageForm() {
   inputImageName.value = '';
   inputImageLink.value = '';
-  clearFormErrors(popupBlockAddImage, popupAddImgValidator);
-  popupAddImgValidator.changeButtonState();
+  popupAddImgValidator.validate();
   showClosePopupForm(popupBlockAddImage);
 }
 
