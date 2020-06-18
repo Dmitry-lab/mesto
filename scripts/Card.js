@@ -1,22 +1,21 @@
 export default class Card {
-  constructor(data, templateSelector, popup, popupFunction) {
-    this._name = data.name;
-    this._src = data.link;
+  constructor({name, link}, templateSelector, handleCardClick) {
+    this._name = name;
+    this._src = link;
     this._templateSelector = templateSelector;
-    this._cardsPopup = popup;
-    this._popupFunction = popupFunction;
+    this._popupFunction = handleCardClick;
   }
 
-  _showPopup() {
+  /*_showPopup() {
     this._popupFunction(this._cardsPopup);
     this._cardsPopup.querySelector('.popup__image').src = this._cardShadowRect.dataset.url;
     this._cardsPopup.querySelector('.popup__image-caption').textContent = this._cardShadowRect.dataset.alt;
-  }
+  }*/
 
   _setEventListeners() {
     this._deleteButton.addEventListener('click', () => this._deleteButton.closest('.card').remove());
     this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__like-button_checked'));
-    this._cardShadowRect.addEventListener('click', () => this._showPopup());
+    this._cardShadowRect.addEventListener('click', this._popupFunction);
   }
 
   createCard() {
