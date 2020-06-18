@@ -6,13 +6,7 @@ export default class Card {
     this._popupFunction = handleCardClick;
   }
 
-  /*_showPopup() {
-    this._popupFunction(this._cardsPopup);
-    this._cardsPopup.querySelector('.popup__image').src = this._cardShadowRect.dataset.url;
-    this._cardsPopup.querySelector('.popup__image-caption').textContent = this._cardShadowRect.dataset.alt;
-  }*/
-
-  _setEventListeners() {
+   _setEventListeners() {
     this._deleteButton.addEventListener('click', () => this._deleteButton.closest('.card').remove());
     this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__like-button_checked'));
     this._cardShadowRect.addEventListener('click', this._popupFunction);
