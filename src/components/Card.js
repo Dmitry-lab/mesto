@@ -9,7 +9,7 @@ export default class Card {
    _setEventListeners() {
     this._deleteButton.addEventListener('click', () => this._deleteButton.closest('.card').remove());
     this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__like-button_checked'));
-    this._cardShadowRect.addEventListener('click', this._popupFunction);
+    this._cardShadowRect.addEventListener('click', () => this._popupFunction(this._src, this._name));
   }
 
   createCard() {

@@ -1,5 +1,3 @@
-import {profileNameInput, profileDescriptionInput} from './constants.js';
-
 export default class UserInfo {
   constructor({nameSelector, descriptionSelector}) {
     this._nameField = document.querySelector(nameSelector);
@@ -10,7 +8,7 @@ export default class UserInfo {
     return {name: this._nameField.textContent, description: this._descriptionField.textContent};
   }
 
-  setUserInfo({[profileNameInput]: name, [profileDescriptionInput]: description}) {
+  setUserInfo(name, description) {
     this._nameField.textContent = name;
     this._descriptionField.textContent = description;
   }
