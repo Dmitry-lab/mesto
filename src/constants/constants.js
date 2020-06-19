@@ -5,11 +5,16 @@ export const popupImageCaption = '.popup__image-caption';
 export const popupFormSelector = '.popup__container';
 export const nameSelector = '.profile__name';
 export const descriptionSelector = '.profile__description';
-export const profileNameInput= 'profile-name'
-export const profileDescriptionInput = 'profile-description'
 
-export const editButton = document.querySelector('.profile__edit-button');
-export const addButton = document.querySelector('.profile__add-button');
+export const configObject = {
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__item_inappropriate',
+  errorClass: 'popup__error_visible'
+}
+
+
 
 
 
