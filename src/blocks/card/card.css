@@ -4,7 +4,10 @@
 @import url(__like-button/card__like-button.css);
 @import url(__like-button/_checked/card__like-button_checked.css);
 @import url(__delete-button/card__delete-button.css);
+@import url(__delete-button/_hidden/card__delete-button_hidden.css);
 @import url(__shadow-rect/card__shadow-rect.css);
+@import url(__likes-block/card__likes-block.css);
+@import url(__likes-counter/card__likes-counter.css);
 
 .card {
   margin: 0;

@@ -4,6 +4,7 @@
 @import url(__item/_inappropriate/popup__item_inappropriate.css);
 @import url(__save-button/popup__save-button.css);
 @import url(__save-button/_disabled/popup__save-button_disabled.css);
+@import url(__save-button/_waiting/popup__save-button_waiting.css);
 @import url(__close-button/popup__close-button.css);
 @import url(__image-container/popup__image-container.css);
 @import url(__image/popup__image.css);

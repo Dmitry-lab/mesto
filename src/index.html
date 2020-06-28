@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Проектная работа 4. Интерактивная страница, куда можно добавлять фотографии, удалять их и ставить лайки.">
     <meta name="author" content="Серпков Дмитрий">
-    <!-- <link rel="stylesheet" type="text/css" href="pages/index.css"> -->
+   <!--  <link rel="stylesheet" type="text/css" href="./pages/index.css"> -->
   </head>
   <body>
     <div class="page">
@@ -16,11 +16,15 @@
       <main>
         <section class="profile">
           <div class="profile__content">
-            <img class="profile__avatar" src="images/avatar.jpg" alt="фото для аватара: на фото Жак-Ив Кусто">
+            <div class="profile__avatar-block">
+              <img class="profile__avatar" src="images/avatar.jpg" alt="аватар пользователя">
+              <div class="profile__shadow-rect"></div>
+              <img class="profile__edit-icon" src="images/edit-icon.svg" alt="иконка редактирования аватара">
+            </div>
             <div class="profile__info">
-              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <h1 class="profile__name"></h1>
               <button class="default-button profile__edit-button" type="button"></button>
-              <p class="profile__description">Исследователь океана</p>
+              <p class="profile__description"></p>
             </div>
           </div>
           <button class="default-button profile__add-button" type="button"></button>
@@ -60,6 +64,22 @@
           <button class="default-button popup__close-button" type="button"></button>
         </figure>
       </div>
+      <div class="popup" id="popup-agreement">
+        <form class="popup__container">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <button class="default-button popup__save-button" type="submit">Да</button>
+          <button class="default-button popup__close-button" type="button"></button>
+        </form>
+      </div>
+      <div class="popup" id="popup-avatar-change">
+        <form class="popup__container" novalidate>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <input class="popup__item popup__item_type_name" id="input-url" type="url" name="user-avatar" placeholder="Ссылка на аватар" required>
+          <span class="popup__error" id="input-url-error"></span>
+          <button class="default-button popup__save-button" type="submit">Сохранить</button>
+          <button class="default-button popup__close-button" type="button"></button>
+        </form>
+      </div>
     </div>
     <template id="card-template">
       <figure class="card">
@@ -67,11 +87,14 @@
         <div class="card__shadow-rect" data-url="" data-alt=""></div>
         <figcaption class="card__caption-content">
           <p class="card__caption"></p>
-          <button class="default-button card__like-button" type="button"></button>
+          <div class="card__likes-block">
+            <button class="default-button card__like-button" type="button"></button>
+            <span class="card__likes-counter">0</span>
+          </div>
           <button class="default-button card__delete-button" type="button"></button>
         </figcaption>
       </figure>
     </template>
-    <!-- <script type="module" src="./pages/index.js"></script> -->
+     <!-- <script type="module" src="./pages/index.js"></script> -->
   </body>
 </html>
