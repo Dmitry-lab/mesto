@@ -33,6 +33,12 @@ export default class PopupWithForm extends Popup {
     this._saveButton.disabled = true;
   }
 
+  stopWait() {
+    this._saveButton.disabled = false;
+    this._saveButton.textContent = this._defaultText;
+    this._saveButton.classList.remove(this._saveButtonModificator);
+  }
+
   close() {
     this._inputList.forEach(item => item.value = '');
     super.close();

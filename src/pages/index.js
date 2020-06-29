@@ -27,7 +27,7 @@ const galleryBlock = new Section(
   cardInfo => {
     const cardObject = new Card(cardInfo, '#card-template',
       (link, name) => popupBlockImage.open(link, name),
-      (currentCard, cardDOMElement) => popupBlockAgreement.open(currentCard, cardDOMElement),
+      currentCard => popupBlockAgreement.open(currentCard),
       api
     );
     galleryBlock.addItem(cardObject.createCard(userInfo.getUserId()));
@@ -46,13 +46,20 @@ const popupBlockAgreement = new PopupForConfirmation('#popup-agreement',
   popupOpenedModificator, popupCloseButtonSelector, popupFormSelector,
   () => {
     const currentCard = popupBlockAgreement.getConnectedObject();
-    api.deleteCard(currentCard.getId(),
-      () => {
-        popupBlockAgreement.getDOMElement().remove();
+    api.deleteCard(currentCard.getId())
+      .then(res => {
+        if (res.ok) {
+          popupBlockAgreement.getConnectedObject().removeCard();
+          popupBlockAgreement.close();
+        }
+        else
+          Promise.reject(res.status);
+      })
+      .catch(err => {
         popupBlockAgreement.close();
-      },
-      () => popupBlockAgreement.close()
-    )
+        console.log(`Ошибка ${err}`);
+        alert('Ошибка сервера. Попробуйте повторить действие позже.');
+      })
   }
 );
 popupBlockAgreement.setEventListeners();
@@ -63,19 +70,22 @@ const popupBlockAddImage = new PopupWithForm('#popup-add-image',
   (formValues) => {
     const {'place-name': name, 'place-link': link} = formValues;
     popupBlockAddImage.beginWait();
-    api.addCard(name, link,
-      (_id) => {
-        const cardObject = new Card({name, link, _id, owner: {_id: userInfo.getUserId()}},
+    api.addCard(name, link)
+      .then(cardInfo => {
+        const cardObject = new Card({name, link: cardInfo.link, _id: cardInfo._id, owner: {_id: cardInfo.owner._id}},
           '#card-template',
           (link, name) => popupBlockImage.open(link, name),
-          (currentCard, cardDOMElement) => popupBlockAgreement.open(currentCard, cardDOMElement),
+          currentCard => popupBlockAgreement.open(currentCard),
           api
         );
-        galleryBlock.addItemOnTop(cardObject.createCard(userInfo.getUserId()));
+        galleryBlock.addItemOnTop(cardObject.createCard(cardInfo.owner._id));
         popupBlockAddImage.close();
-      },
-      () => popupBlockAddImage.close()
-    )
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        popupBlockAddImage.stopWait();
+        alert('Ошибка записи данных на сервер. Проверьте корректность введенных данных или загрузите данные позже');
+      })
   },
   () => popupAddImgValidator.validate()
 );
@@ -87,13 +97,16 @@ const popupBlockProfile = new PopupWithForm('#popup-profile',
   (formValues) => {
     const {'profile-name': name, 'profile-description': description} = formValues;
     popupBlockProfile.beginWait();
-    api.changeUserInfo(name, description,
-      () => {
-        userInfo.setUserInfo({name, description});
+    api.changeUserInfo(name, description)
+      .then(newData => {
+        userInfo.setUserInfo({name: newData.name, description: newData.about});
         popupBlockProfile.close();
-      },
-      () => popupBlockProfile.close()
-    )
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        popupBlockProfile.stopWait();
+        alert('Ошибка записи данных на сервер. Проверьте корректность введенных данных или загрузите данные позже');
+      });
   },
   () => {
     const {name, description} = userInfo.getUserInfo();
@@ -109,14 +122,17 @@ const popupBlockAvatar = new PopupWithForm('#popup-avatar-change',
   popupFormSelector, saveButtonModificator,
   (formValues) => {
     const {'user-avatar': avatarUrl} = formValues;
-    popupBlockAddImage.beginWait();
-    api.changeAvatar(avatarUrl,
-      () => {
-        userInfo.setUserAvatar(avatarUrl);
+    popupBlockAvatar.beginWait();
+    api.changeAvatar(avatarUrl)
+      .then(newData => {
+        userInfo.setUserAvatar(newData.avatar);
         popupBlockAvatar.close();
-      },
-      () => popupBlockAvatar .close()
-    )
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`)
+        popupBlockAvatar.stopWait();
+        alert('Ошибка записи данных на сервер. Проверьте корректность введенных данных или загрузите данные позже');
+      });
   },
   () => popupAvatarValidator.validate()
 )
@@ -130,15 +146,18 @@ editButton.addEventListener('click', () => popupBlockProfile.open());
 addButton.addEventListener('click', () => popupBlockAddImage.open());
 editAvatar.addEventListener('click', () => popupBlockAvatar.open());
 
-api.getUserInfo(userData => {
-  userInfo.setUserInfo({name: userData.name, description: userData.about});
-  userInfo.setUserAvatar(userData.avatar);
-  userInfo.setUserId(userData._id);
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cardsArray]) => {
+    userInfo.setUserInfo({name: userData.name, description: userData.about});
+    userInfo.setUserAvatar(userData.avatar);
+    userInfo.setUserId(userData._id);
 
-  api.getInitialCards(cardsArray => {
     galleryBlock.renderItems(cardsArray);
-  });
-});
+  }).
+  catch(err => {
+    console.log(`Ошибка ${err}`);
+    alert('Ошибка подключения к серверу.');
+  })
 
 popupProfileValidator.enableValidation();
 popupAddImgValidator.enableValidation();

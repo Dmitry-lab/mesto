@@ -13,16 +13,26 @@ export default class Card {
 
   _likeClick() {
     if (!this._likeButton.classList.contains('card__like-button_checked')) {
-      this._api.putLike(likesNumber => {
-        this._likeButton.classList.add('card__like-button_checked');
-        this._likesNumberField.textContent = likesNumber;
-      }, this._id);
+      this._api.putLike(this._id)
+        .then(data => {
+          this._likeButton.classList.add('card__like-button_checked');
+          this._likesNumberField.textContent = data.likes.length;
+        })
+        .catch(err => {
+          console.log(`Ошибка ${err}`);
+          alert('Ошибка сервера. Попробуйте повторить действие позже.');
+        })
     }
     else {
-      this._api.deleteLike(likesNumber => {
-        this._likeButton.classList.remove('card__like-button_checked');
-        this._likesNumberField.textContent = likesNumber;
-      }, this._id);
+      this._api.deleteLike(this._id)
+        .then(data => {
+          this._likeButton.classList.remove('card__like-button_checked');
+          this._likesNumberField.textContent = data.likes.length;
+        })
+        .catch(err => {
+          console.log(`Ошибка ${err}`);
+          alert('Ошибка сервера. Попробуйте повторить действие позже.');
+        })
     }
   }
 
@@ -31,9 +41,13 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._deleteButton.addEventListener('click', (evt) => this._agreementPopupFunction(this, evt.target.closest('.card')));
+    this._deleteButton.addEventListener('click', (evt) => this._agreementPopupFunction(this));
     this._likeButton.addEventListener('click', this._likeClick.bind(this));
     this._cardShadowRect.addEventListener('click', () => this._popupFunction(this._src, this._name));
+  }
+
+  removeCard() {
+    this._deleteButton.closest('.card').remove();
   }
 
   createCard(myId) {
