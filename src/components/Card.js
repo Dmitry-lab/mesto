@@ -46,6 +46,8 @@ export default class Card {
     this._cardShadowRect.addEventListener('click', () => this._popupFunction(this._src, this._name));
   }
 
+  /*проанализировал почему не срабатывает this._cardNode.remove(). При клонировании из template, как понимаю, получаем documentFragement, при добавлении в DOM он сам не добавляется,
+  добавляются только его потомки. Т.к. this._cardNode является documentFragement, то удаление реализую через один из дочерних элементов*/
   removeCard() {
     this._deleteButton.closest('.card').remove();
   }

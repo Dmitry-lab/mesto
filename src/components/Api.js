@@ -81,6 +81,12 @@ export default class Api {
         authorization: this._headers.authorization
       }
     })
+      .then(res => {
+        if (res.ok)
+          return Promise.resolve()
+        else
+          return Promise.reject(res.status)
+      })
   }
 
   putLike(cardID) {

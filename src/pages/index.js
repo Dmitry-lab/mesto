@@ -47,13 +47,9 @@ const popupBlockAgreement = new PopupForConfirmation('#popup-agreement',
   () => {
     const currentCard = popupBlockAgreement.getConnectedObject();
     api.deleteCard(currentCard.getId())
-      .then(res => {
-        if (res.ok) {
-          popupBlockAgreement.getConnectedObject().removeCard();
-          popupBlockAgreement.close();
-        }
-        else
-          Promise.reject(res.status);
+      .then(() => {
+        currentCard.removeCard();
+        popupBlockAgreement.close();
       })
       .catch(err => {
         popupBlockAgreement.close();
