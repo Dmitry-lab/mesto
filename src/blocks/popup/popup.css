@@ -24,6 +24,7 @@
   font-size: 1rem;
   background-color:rgba(0, 0, 0, .5);
   display: flex;
+  z-index: 4;
   opacity: 0;
   transition: .5s ease;
   visibility: hidden;
